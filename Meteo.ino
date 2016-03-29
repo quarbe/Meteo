@@ -35,6 +35,15 @@ WidgetLCD lcd(V0);
 SimpleTimer timer;
 Adafruit_BMP085 bmp;
 
+//Variables Global
+int milisegundos;
+int lastSeconds = 0;
+int segundos;
+float segundosAcu;
+float minutos;
+float horas;
+float dias;
+
 void setup()
 {
   Serial.begin(9600);
@@ -56,6 +65,9 @@ void loop() {
   // put your main code here, to run repeatedly: 
   Blynk.run();
   timer.run(); 
+
+  segundos = millis()/1000;
+  
 
 
   

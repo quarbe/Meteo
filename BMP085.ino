@@ -18,12 +18,12 @@ int minPressure = 1013.25;
 int maxPressure = 0;
 //END BMP085
 
-BLYNK_READ(4)
+BLYNK_READ(V4)
 {
   
   // pressure of 1013.25 millibar = 101325 Pascal
   // This command writes Arduino's Pressure in Pa to Virtual Pin (4)
-  Blynk.virtualWrite(4,bmp.readPressure()/100);
+  Blynk.virtualWrite(V4,bmp.readPressure()/100);
 
   if ((bmp.readPressure()/100)<minPressure)
   {
@@ -34,7 +34,7 @@ BLYNK_READ(4)
   {
     maxPressure = (bmp.readPressure()/100);
   }
-  Blynk.virtualWrite(14, minPressure);
-  Blynk.virtualWrite(15, maxPressure);
+  Blynk.virtualWrite(V14, minPressure);
+  Blynk.virtualWrite(V15, maxPressure);
 
 }

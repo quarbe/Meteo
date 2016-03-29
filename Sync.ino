@@ -5,7 +5,7 @@ bool isFirstConnect = true;
 BLYNK_CONNECTED() {
   if (isFirstConnect) {
     // Request Blynk server to re-send latest values for all pins
-    Blynk.syncAll();
+   // Blynk.syncAll();
 
     // You can also update an individual Virtual pin like this:
     //Blynk.syncVirtual(V0);
@@ -13,13 +13,8 @@ BLYNK_CONNECTED() {
     isFirstConnect = false;
   }
 
-  // Let's write your hardware uptime to Virtual Pin 2
-  int value = millis() / 1000;
-  Blynk.virtualWrite(V2, value);
+  //Here is running a few miliseconds
+  //Retrieve last value from Sync
+
 }
 
-BLYNK_WRITE(V0)
-{
-  int value = param.asInt();
-  Blynk.virtualWrite(V2, value);
-}
