@@ -4,37 +4,29 @@
 // Connect SDA to i2c data - on '168/'328 Arduino Uno/Duemilanove/etc thats Analog 4
 // EOC is not used, it signifies an end of conversion
 // XCLR is a reset pin, also not used here
-float lastPressure = -1;
-int lastForecast = -1;
-char* weather[] = {"stable","sunny","cloudy","unstable","thunderstorm","unknown"};
-int minutes;
-float pressureSamples[180];
-int minuteCount = 0;
-bool firstRound = true;
-float pressureAvg[7];
-float dP_dt;
-int forecast;
-int minPressure = 1013.25;
-int maxPressure = 0;
+
 //END BMP085
 
 BLYNK_READ(V4)
 {
-  
+  //Calc here, we send less work to the sensor
+  pressure = bmp.readPressure()/100;
   // pressure of 1013.25 millibar = 101325 Pascal
   // This command writes Arduino's Pressure in Pa to Virtual Pin (4)
-  Blynk.virtualWrite(V4,bmp.readPressure()/100);
+  Blynk.virtualWrite(V4,pressure);
 
-  if ((bmp.readPressure()/100)<minPressure)
+  if (pressure<minPressure)
   {
-    minPressure = (bmp.readPressure()/100);
+    minPressure = pressure;
+    Blynk.virtualWrite(V14, minPressure);
   }
 
-  if ((bmp.readPressure()/100)>maxPressure)
+  if (pressure>maxPressure)
   {
-    maxPressure = (bmp.readPressure()/100);
+    maxPressure = pressure;
+    Blynk.virtualWrite(V15, maxPressure);
   }
-  Blynk.virtualWrite(V14, minPressure);
-  Blynk.virtualWrite(V15, maxPressure);
+  
+  
 
 }

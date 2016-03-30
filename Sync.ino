@@ -1,3 +1,6 @@
+
+//NOT WORKING 
+
 // Keep this flag not to re-sync on every reconnection
 bool isFirstConnect = true;
 

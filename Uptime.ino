@@ -3,9 +3,12 @@
     lastSeconds = param.asInt();
   }
 */
+void uptime(){
+  //TODO: Program a clock :)
+  //Then show only variables
+  }
 
-
-
+//Segundos
 BLYNK_READ(V31)
 {
   // This command writes Arduino's uptime in seconds to Virtual Pin (31)

@@ -36,13 +36,20 @@ SimpleTimer timer;
 Adafruit_BMP085 bmp;
 
 //Variables Global
-int milisegundos;
-int lastSeconds = 0;
-int segundos;
-float segundosAcu;
-float minutos;
-float horas;
-float dias;
+//----- Uptime ----------
+long milisegundos;
+long segundos;
+long minutos;
+int horas;
+int dias;
+//----- BMP085 ----------
+float pressure = -1;
+float minPressure = 1013.25;
+float maxPressure = -1;
+
+//----- Forecast  -------
+int forecast = 4;
+char* weather[] = {"stable","sunny","cloudy","unstable","thunderstorm","unknown"};
 
 void setup()
 {
@@ -54,9 +61,13 @@ void setup()
   }
 
   //Timers
-  timer.setInterval(1000L, UpdateLCD); //LCD AT V0
+ // timer.setInterval(1000L, UpdateLCD); //LCD AT V0 - Update every second
+timer.setInterval(6000L, calcForecast); //Update every Minute
+timer.setInterval(6000L, titleForecast); //LCD AT V0 - Update every second
+timer.setInterval(6000L, sendForecast); //LCD AT V0 - Update every second
+ 
+ //UpdateLCDline0("Probando ");
 
-  //
   //BMP085
   bmp.begin();
 }
@@ -66,9 +77,7 @@ void loop() {
   Blynk.run();
   timer.run(); 
 
-  segundos = millis()/1000;
-  
-
+  segundos = millis()/1000; //Always counting :)
 
   
 }
