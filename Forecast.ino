@@ -16,7 +16,6 @@ void titleForecast() //linea0
 //Send update to LCD
 void sendForecast() //Linea1
 {
-  //UpdateLCDline0(weather[forecast]); //LCD AT V0 - Update every second
   UpdateLCDline1(weather[forecast]); //LCD AT V0 - Update every second
 }
 
@@ -26,38 +25,54 @@ void calcForecast()
 }
 
 
+
+
+
+ 
 /**********************************  sample  ***************************************
 Input:   pressure 
 Output:  an int containing the weather based on pressure
 ************************************************************************************/ 
 
 int sample(float pressure) {
-  
-  //variables locales no computan en memoria como globales
-  float pressureSamples[180];
+ //Deben ser globales para que funcionen, pero no hay espacio para el array de samples, 
+ //Crear otro algoritmo
+ float pressureSamples[35]; //7x5 avg values, using minutos as variable
   int minuteCount = 0;
   bool firstRound = true;
   float pressureAvg[7];
-  float dP_dt;
+  float dP_dt; 
+ 
+  
 
   // Algorithm found here
   // http://www.freescale.com/files/sensors/doc/app_note/AN3914.pdf
-  if (minuteCount > 180)
+  if (minuteCount > 180){
     minuteCount = 6;
-
+  }
   pressureSamples[minuteCount] = pressure;
-  minuteCount++;
+  //minuteCount++;
+  minuteCount = minuteCount + 1;
+
+  Serial.print("Minute Count: ");
+  Serial.println(minuteCount);
 
   if (minuteCount == 5) {
     // Avg pressure in first 5 min, value averaged from 0 to 5 min.
+    Serial.println("Avg pressure in first 5 min, value averaged from 0 to 5 min.");
     pressureAvg[0] = ((pressureSamples[1] + pressureSamples[2]
         + pressureSamples[3] + pressureSamples[4] + pressureSamples[5])
         / 5);
+    Serial.print("Avg pressure in first 5 min: ");   
+    Serial.println(pressureAvg[0]);
   } else if (minuteCount == 35) {
     // Avg pressure in 30 min, value averaged from 0 to 5 min.
+    Serial.print("Avg pressure in 30 min, value averaged from 0 to 5 min."); 
     pressureAvg[1] = ((pressureSamples[30] + pressureSamples[31]
         + pressureSamples[32] + pressureSamples[33]
         + pressureSamples[34]) / 5);
+    Serial.print("Avg pressure in 30 min: ");   
+    Serial.println(pressureAvg[1]);
     float change = (pressureAvg[1] - pressureAvg[0]);
     if (firstRound) // first time initial 3 hour
       dP_dt = ((65.0 / 1023.0) * 2 * change); // note this is for t = 0.5hour
@@ -75,6 +90,7 @@ int sample(float pressure) {
       dP_dt = (((65.0 / 1023.0) * change) / 2); //divide by 2 as this is the difference in time from 0 value
   } else if (minuteCount == 95) {
     // Avg pressure at end of the hour, value averaged from 0 to 5 min.
+    Serial.println("Avg pressure at end of the hour, value averaged from 0 to 5 min.");
     pressureAvg[3] = ((pressureSamples[90] + pressureSamples[91]
         + pressureSamples[92] + pressureSamples[93]
         + pressureSamples[94]) / 5);
@@ -85,6 +101,7 @@ int sample(float pressure) {
       dP_dt = (((65.0 / 1023.0) * change) / 2.5); // divide by 2.5 as this is the difference in time from 0 value
   } else if (minuteCount == 120) {
     // Avg pressure at end of the hour, value averaged from 0 to 5 min.
+    Serial.println("Avg pressure at end of the hour, value averaged from 0 to 5 min.");
     pressureAvg[4] = ((pressureSamples[115] + pressureSamples[116]
         + pressureSamples[117] + pressureSamples[118]
         + pressureSamples[119]) / 5);
@@ -95,6 +112,7 @@ int sample(float pressure) {
       dP_dt = (((65.0 / 1023.0) * change) / 3); // divide by 3 as this is the difference in time from 0 value
   } else if (minuteCount == 155) {
     // Avg pressure at end of the hour, value averaged from 0 to 5 min.
+    Serial.println("Avg pressure at end of the hour, value averaged from 0 to 5 min.");
     pressureAvg[5] = ((pressureSamples[150] + pressureSamples[151]
         + pressureSamples[152] + pressureSamples[153]
         + pressureSamples[154]) / 5);
@@ -105,6 +123,7 @@ int sample(float pressure) {
       dP_dt = (((65.0 / 1023.0) * change) / 3.5); // divide by 3.5 as this is the difference in time from 0 value
   } else if (minuteCount == 180) {
     // Avg pressure at end of the hour, value averaged from 0 to 5 min.
+    Serial.println("Avg pressure at end of the hour, value averaged from 0 to 5 min.");
     pressureAvg[6] = ((pressureSamples[175] + pressureSamples[176]
         + pressureSamples[177] + pressureSamples[178]
         + pressureSamples[179]) / 5);

@@ -20,4 +20,5 @@ BLYNK_CONNECTED() {
   //Retrieve last value from Sync
 
 }
-
+//BLYNK_WRITE()
+ // { parm.asInt() buscar codigo}

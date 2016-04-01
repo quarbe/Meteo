@@ -25,7 +25,7 @@
 char auth[] = "500663fc272e460eb5e7e2e49da34f14";
 
 //Windgets
-WidgetLCD lcd(V0);
+WidgetLCD lcd(V27);
 
 // Mapeado
 //const int BMP085_PIN = A4y5;
@@ -37,15 +37,16 @@ Adafruit_BMP085 bmp;
 
 //Variables Global
 //----- Uptime ----------
-long milisegundos;
+long ms;
+float ms_before = 0;  
 long segundos;
 long minutos;
 int horas;
 int dias;
 //----- BMP085 ----------
-float pressure = -1;
-float minPressure = 1013.25;
-float maxPressure = -1;
+int pressure = 0;
+int minPressure = 1013.25;
+int maxPressure = -1;
 
 //----- Forecast  -------
 int forecast = 4;
@@ -62,22 +63,37 @@ void setup()
 
   //Timers
  // timer.setInterval(1000L, UpdateLCD); //LCD AT V0 - Update every second
-timer.setInterval(6000L, calcForecast); //Update every Minute
-timer.setInterval(6000L, titleForecast); //LCD AT V0 - Update every second
-timer.setInterval(6000L, sendForecast); //LCD AT V0 - Update every second
+ UpdateLCD(); //Wellcome
+//timer.setInterval(60000L, calcForecast); //calculate forecast every Minute
+//timer.setInterval(60001L, titleForecast); //To line 0 - Update every Minute
+//timer.setInterval(60002L, sendForecast); //To line 1 - Update every Minute
  
- //UpdateLCDline0("Probando ");
 
   //BMP085
+  Serial.println("Starting BMP085...");
   bmp.begin();
+ /* if (!bmp.begin()) 
+  {
+    Serial.println("Could not find a valid BMP085 sensor, check wiring!");
+    Serial.println("Program will not work");
+    while (true) {//wait forever}
+  }
+  */
+  Serial.println("GREETINGS PROFESSOR FALKEN");
+  Serial.println(" ");
+  Serial.println("HELLO");
+  Serial.println(" ");
+  Serial.println("A STRANGE GAME.");
+  Serial.println("THE ONLY WINNING MOVE IS");
+  Serial.println("NOT TO PLAY.");
 }
 
 void loop() {
   // put your main code here, to run repeatedly: 
   Blynk.run();
   timer.run(); 
-
-  segundos = millis()/1000; //Always counting :)
+  ms = millis(); //Always counting :)
+  uptime();
 
   
 }

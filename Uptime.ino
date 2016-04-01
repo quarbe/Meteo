@@ -6,8 +6,30 @@
 void uptime(){
   //TODO: Program a clock :)
   //Then show only variables
+
+  if (ms > (ms_before + 999)) 
+  {
+    ms_before = ms;
+    segundos = segundos +1;
   }
 
+  if (segundos > 59) 
+  {
+    minutos = minutos + 1;
+    segundos = 0;  
+  }
+
+  if (minutos > 59)
+  {
+    minutos = 0;
+    horas = horas + 1;
+  }
+  
+  if (horas > 23)
+  {
+    dias = dias + 1;
+  }
+}
 //Segundos
 BLYNK_READ(V31)
 {
@@ -22,7 +44,6 @@ BLYNK_READ(V31)
 BLYNK_READ(V30)
 {
   // This command writes Arduino's uptime in minutes to Virtual Pin (30)
-  minutos = (milisegundos/60000) + (segundos/60);
   Blynk.virtualWrite(V30,minutos);
   
 }
@@ -31,7 +52,6 @@ BLYNK_READ(V30)
 BLYNK_READ(V29)
 {
   // This command writes Arduino's uptime in minutes to Virtual Pin (29)
-  horas = (milisegundos/60000) + (minutos/60);
   Blynk.virtualWrite(V29,horas);
   
 }
@@ -40,7 +60,6 @@ BLYNK_READ(V29)
 BLYNK_READ(V28)
 {
   // This command writes Arduino's uptime in minutes to Virtual Pin (28)
-  dias = (milisegundos/60000) + (horas/24);
   Blynk.virtualWrite(V28,dias);
   
 }
