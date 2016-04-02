@@ -1,6 +1,3 @@
-
-//NOT WORKING 
-
 // Keep this flag not to re-sync on every reconnection
 bool isFirstConnect = true;
 
@@ -8,7 +5,7 @@ bool isFirstConnect = true;
 BLYNK_CONNECTED() {
   if (isFirstConnect) {
     // Request Blynk server to re-send latest values for all pins
-   // Blynk.syncAll();
+    Blynk.syncAll();
 
     // You can also update an individual Virtual pin like this:
     //Blynk.syncVirtual(V0);
@@ -16,9 +13,39 @@ BLYNK_CONNECTED() {
     isFirstConnect = false;
   }
 
-  //Here is running a few miliseconds
-  //Retrieve last value from Sync
+  //Show Sync Time in LCD
+  UpdateLCDClear();
+  int syncTime = millis() / 1000;
+  UpdateLCDline0("Sync Time: "); 
+  UpdateLCDline1(String(syncTime, DEC));
 
 }
-//BLYNK_WRITE()
- // { parm.asInt() buscar codigo}
+
+//Variables to be synced
+BLYNK_WRITE(V31)
+{
+  segundos = param.asInt();
+  Serial.print("Seconds to sync: ");
+  Serial.println(segundos);
+}
+
+BLYNK_WRITE(V30)
+{
+  minutos = param.asInt();
+  Serial.print("Minutes to sync: ");
+  Serial.println(minutos);
+}
+
+BLYNK_WRITE(V29)
+{
+  horas = param.asInt();
+  Serial.print("Hours to sync: ");
+  Serial.println(horas);
+}
+
+BLYNK_WRITE(V28)
+{
+  dias = param.asInt();
+  Serial.print("Days to sync: ");
+  Serial.println(dias);
+}

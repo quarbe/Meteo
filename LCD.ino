@@ -20,14 +20,20 @@ void UpdateLCD() //Just for test porpouses
   // It will cause a FLOOD Error, and connection will be dropped
 }
 
-void UpdateLCDline0(char* line0)
+void UpdateLCDClear()
 {
-  lcd.clear(); //Use it to clear the LCD Widget
+ lcd.clear(); //Use it to clear the LCD Widget
+}
+
+void UpdateLCDline0(String line0)
+{
+  //lcd.clear(); //Use it to clear the LCD Widget
   lcd.print(0, 0, line0); // use: (position X: 0-15, position Y: 0-1, "Message you want to print")
 }
 
-void UpdateLCDline1(char* line1)
+void UpdateLCDline1(String line1)
 {
   //lcd.clear(); //Use it to clear the LCD Widget
   lcd.print(0, 1, line1); // use: (position X: 0-15, position Y: 0-1, "Message you want to print")
 }
+

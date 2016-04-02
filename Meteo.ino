@@ -39,10 +39,10 @@ Adafruit_BMP085 bmp;
 //----- Uptime ----------
 long ms;
 float ms_before = 0;  
-long segundos;
-long minutos;
-int horas;
-int dias;
+int segundos = 0;
+int minutos = 0;
+int horas = 0;
+int dias = 0;
 //----- BMP085 ----------
 int pressure = 0;
 int minPressure = 1013.25;
@@ -63,7 +63,7 @@ void setup()
 
   //Timers
  // timer.setInterval(1000L, UpdateLCD); //LCD AT V0 - Update every second
- UpdateLCD(); //Wellcome
+ //UpdateLCD(); //Wellcome
 //timer.setInterval(60000L, calcForecast); //calculate forecast every Minute
 //timer.setInterval(60001L, titleForecast); //To line 0 - Update every Minute
 //timer.setInterval(60002L, sendForecast); //To line 1 - Update every Minute
@@ -86,13 +86,14 @@ void setup()
   Serial.println("A STRANGE GAME.");
   Serial.println("THE ONLY WINNING MOVE IS");
   Serial.println("NOT TO PLAY.");
+  Serial.println(" ");
 }
 
 void loop() {
   // put your main code here, to run repeatedly: 
   Blynk.run();
   timer.run(); 
-  ms = millis(); //Always counting :)
+  ms = millis(); //Always counting
   uptime();
 
   
