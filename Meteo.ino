@@ -20,6 +20,7 @@
 #include <Wire.h>
 #include <Adafruit_BMP085.h>
 
+
 // You should get Auth Token in the Blynk App.
 // Go to the Project Settings (nut icon).
 char auth[] = "500663fc272e460eb5e7e2e49da34f14";
@@ -29,16 +30,18 @@ WidgetLCD lcd(V27);
 
 // Mapeado
 //const int BMP085_PIN = A4y5;
-
+#define DHTPIN 2     // what digital pin we're connected to
+#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 
 //Instances
 SimpleTimer timer;
 Adafruit_BMP085 bmp;
+DHT dht(DHTPIN, DHTTYPE);
 
 //Variables Global
 //----- Uptime ----------
 long ms;
-float ms_before = 0;  
+double ms_before = 0;  
 int segundos = 0;
 int minutos = 0;
 int horas = 0;
@@ -47,10 +50,20 @@ int dias = 0;
 int pressure = 0;
 int minPressure = 1013.25;
 int maxPressure = -1;
+double Temperature = 0;
+double maxTemperature = 0;
+double minTemperature = 0;
+//----- Soil Mousture ------
+int soilMousture = 0;
+//DHT
+double Humidity = 0;
+double TempDHT = 0;
+double HeatIndex = 0;
+
 
 //----- Forecast  -------
-int forecast = 4;
-char* weather[] = {"stable","sunny","cloudy","unstable","thunderstorm","unknown"};
+//int forecast = 4;
+//char* weather[] = {"stable","sunny","cloudy","unstable","thunderstorm","unknown"};
 
 void setup()
 {
@@ -79,6 +92,11 @@ void setup()
     while (true) {//wait forever}
   }
   */
+
+  //DHT
+  dht.begin();
+
+/*  
   Serial.println("GREETINGS PROFESSOR FALKEN");
   Serial.println(" ");
   Serial.println("HELLO");
@@ -87,12 +105,13 @@ void setup()
   Serial.println("THE ONLY WINNING MOVE IS");
   Serial.println("NOT TO PLAY.");
   Serial.println(" ");
+  */
 }
 
 void loop() {
   // put your main code here, to run repeatedly: 
   Blynk.run();
-  timer.run(); 
+ // timer.run(); 
   ms = millis(); //Always counting
   uptime();
 

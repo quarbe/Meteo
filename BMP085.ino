@@ -26,7 +26,22 @@ BLYNK_READ(V4)
     maxPressure = pressure;
     Blynk.virtualWrite(V15, maxPressure);
   }
+}
+BLYNK_READ(V5)
+{
+  Temperature = bmp.readTemperature();
+  Blynk.virtualWrite(V5,Temperature);
   
-  
+  if (Temperature<minTemperature)
+  {
+    minTemperature = Temperature;
+    Blynk.virtualWrite(V16, minTemperature);
+  }
 
+  if (Temperature>maxTemperature)
+  {
+    maxTemperature = Temperature;
+    Blynk.virtualWrite(V17, maxTemperature);
+  }
+  
 }

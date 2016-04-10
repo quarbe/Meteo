@@ -4,7 +4,7 @@ BLYNK_READ(16)
 {
   Blynk.virtualWrite(16,forecast);
 }
-*/
+
 
 //Anounce: Forecast
 
@@ -33,6 +33,7 @@ void calcForecast()
 Input:   pressure 
 Output:  an int containing the weather based on pressure
 ************************************************************************************/ 
+/*
 
 int sample(float pressure) {
  //Deben ser globales para que funcionen, pero no hay espacio para el array de samples, 
@@ -152,3 +153,5 @@ int sample(float pressure) {
     return 5; // Unknown
 }
 
+
+*/
